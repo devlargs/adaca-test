@@ -1,10 +1,10 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from "next";
 
 // eslint-disable-next-line
 const initMiddleware = (middleware: any) => {
   return (req: NextApiRequest, res: NextApiResponse): Promise<unknown> =>
     new Promise((resolve, reject) => {
-      middleware(req, res, (result) => {
+      middleware(req, res, (result: unknown) => {
         if (result instanceof Error) {
           return reject(result);
         }
