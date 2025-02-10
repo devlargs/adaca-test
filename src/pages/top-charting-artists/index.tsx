@@ -2,16 +2,22 @@ import { ArtistCard } from "@/components/ArtistCard/ArtistCard";
 import { ErrorNote } from "@/components/ErrorNote";
 import { Artist } from "@/types";
 import { fetcher } from "@/utils/fetcher";
+import { getCountryCode } from "@/utils/getCountryCode";
 import { Box, Flex, Loader, Text } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 
 export default function TopChartingArtists() {
+  const [countryCode, currentCountry] = getCountryCode();
+
   const { error, data, isFetching } = useQuery({
     queryKey: ["topChartingArtists"],
     queryFn: async () => {
-      return fetcher(`/chart.artists.get?page=1&page_size=3&country=ph`);
+      return fetcher(
+        `/chart.artists.get?page=1&page_size=3&country=${countryCode}`
+      );
     },
+    enabled: !!countryCode,
   });
 
   const artistsData = useMemo(() => {
@@ -26,7 +32,7 @@ export default function TopChartingArtists() {
 
   return (
     <>
-      <Text size="xl">Top Charting Artists in PH</Text>
+      <Text size="xl">Top Charting Artists in {currentCountry}</Text>
 
       <Box mt="md">
         {isFetching ? (

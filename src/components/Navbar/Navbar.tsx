@@ -1,4 +1,3 @@
-import { useUser } from "@/store/user";
 import { Box, NavLink } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { useRouter } from "next/router";
@@ -17,7 +16,6 @@ const data = [
 
 export const Navbar = () => {
   const [active, setActive] = useState(0);
-  const resetUser = useUser((e) => e.resetUser);
   const router = useRouter();
 
   const logout = async () => {
@@ -25,8 +23,9 @@ export const Navbar = () => {
       method: "POST",
     });
 
-    resetUser();
     router.push("/");
+
+    localStorage.removeItem("user");
 
     notifications.show({
       title: "Success",

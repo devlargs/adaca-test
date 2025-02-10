@@ -1,4 +1,3 @@
-import { useUser } from "@/store/user";
 import { UserData } from "@/types";
 import { loginUser } from "@/utils/loginUser";
 import { Button, Flex, Input } from "@mantine/core";
@@ -9,8 +8,6 @@ import { useRouter } from "next/router";
 
 export const LoginForm = () => {
   const router = useRouter();
-  const setUser = useUser((e) => e.setUser);
-  const setCountry = useUser((e) => e.setCountry);
 
   const form = useForm({
     mode: "uncontrolled",
@@ -35,8 +32,13 @@ export const LoginForm = () => {
 
       form.reset();
 
-      setUser(data.data.username);
-      setCountry(data.data.country);
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          username: data.data.username,
+          country: data.data.country,
+        })
+      );
 
       router.push("/top-charting-artists");
     },

@@ -1,5 +1,4 @@
 import { COUNTRY_CODES } from "@/constants/countryCodes";
-import { useUser } from "@/store/user";
 import { UserData } from "@/types";
 import { registerUser } from "@/utils/registerUser";
 import { Button, Flex, Input, Select } from "@mantine/core";
@@ -9,8 +8,6 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 
 export const SignupForm = () => {
-  const setUser = useUser((e) => e.setUser);
-  const setCountry = useUser((e) => e.setCountry);
   const router = useRouter();
 
   const form = useForm({
@@ -38,8 +35,13 @@ export const SignupForm = () => {
 
       form.reset();
 
-      setUser(data.data.username);
-      setCountry(data.data.country);
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          username: data.data.username,
+          country: data.data.country,
+        })
+      );
 
       router.push("/top-charting-artists");
     },
