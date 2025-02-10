@@ -37,16 +37,22 @@ export default function AlbumSongs() {
       {isFetching || isPending ? (
         <Loader size="sm" type="dots" />
       ) : error ? (
-        <ErrorNote />
+        <ErrorNote description="Something went wrong while fetching the data. Please try again later." />
       ) : (
         <>
-          {albumTitle && artistName && (
-            <Text size="xl" mb="">
-              {albumTitle} ({artistName}) Tracks
-            </Text>
-          )}
+          {!trackData.length ? (
+            <ErrorNote description="No track list available" />
+          ) : (
+            <>
+              {albumTitle && artistName && (
+                <Text size="xl" mb="">
+                  {albumTitle} ({artistName}) Tracks
+                </Text>
+              )}
 
-          <SongTable tracks={trackData} />
+              <SongTable tracks={trackData} />
+            </>
+          )}
         </>
       )}
     </>

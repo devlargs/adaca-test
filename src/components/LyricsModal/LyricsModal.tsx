@@ -24,7 +24,7 @@ const LyricsModal: FC<{
           {isFetching || isPending ? (
             <Loader size="sm" type="dots" />
           ) : error ? (
-            <ErrorNote />
+            <ErrorNote description="Something went wrong while fetching the data. Please try again later." />
           ) : (
             <>
               <Box
