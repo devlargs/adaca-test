@@ -10,11 +10,15 @@ import { useMemo } from "react";
 export default function ReleasedAlbums() {
   const router = useRouter();
 
-  const { error, data, isFetching } = useQuery({
+  const { error, data, isFetching, isPending } = useQuery({
     queryKey: ["artistAlbums"],
     queryFn: async () => {
-      return fetcher(`/artist.albums.get?artist_id=${router.query.id}`);
+      if (!router.query.id) return null;
+      return fetcher(
+        `/artist.albums.get?artist_id=${router.query.id}&s_release_date=desc&page_size=3`
+      );
     },
+    enabled: !!router.query.id,
   });
 
   const albumData = useMemo(() => {
@@ -32,7 +36,7 @@ export default function ReleasedAlbums() {
       <Text size="xl">Albums Released by ____</Text>
 
       <Box mt="md">
-        {isFetching ? (
+        {isFetching || isPending ? (
           <Loader size="sm" type="dots" />
         ) : error ? (
           <ErrorNote />

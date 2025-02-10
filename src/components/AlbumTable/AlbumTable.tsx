@@ -11,7 +11,11 @@ export const AlbumTable: FC<{ data: Album[] }> = ({ data }) => {
   };
 
   const rows = data.map((album) => (
-    <Table.Tr key={album.album_id} onClick={() => console.log(album.album_id)}>
+    <Table.Tr
+      key={album.album_id}
+      onClick={() => console.log(album.album_id)}
+      style={{ cursor: "pointer" }}
+    >
       <Table.Td>{album.album_name}</Table.Td>
       <Table.Td>{album.album_copyright}</Table.Td>
       <Table.Td>{album.album_rating}</Table.Td>
