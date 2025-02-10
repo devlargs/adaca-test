@@ -4,16 +4,25 @@ import { createTheme, MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
 import { QueryClientProvider } from "@tanstack/react-query";
 import type { AppProps } from "next/app";
+import { useRouter } from "next/router";
 
 const theme = createTheme({});
 
 export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+
+  console.log(router);
+
   return (
     <QueryClientProvider client={queryClient}>
       <MantineProvider theme={theme}>
-        <Layout>
+        {router.pathname === "/" ? (
           <Component {...pageProps} />
-        </Layout>
+        ) : (
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        )}
       </MantineProvider>
     </QueryClientProvider>
   );
