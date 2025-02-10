@@ -31,17 +31,22 @@ export default function ReleasedAlbums() {
     return album;
   }, [data]);
 
+  const artistName = data?.message?.body?.album_list[0]?.album?.artist_name;
+
   return (
     <>
-      <Text size="xl">Albums Released by ____</Text>
-
       <Box mt="md">
         {isFetching || isPending ? (
           <Loader size="sm" type="dots" />
         ) : error ? (
           <ErrorNote />
         ) : (
-          <AlbumTable data={albumData} />
+          <>
+            {artistName && (
+              <Text size="xl">Albums Released by {artistName}</Text>
+            )}
+            <AlbumTable data={albumData} />
+          </>
         )}
       </Box>
     </>

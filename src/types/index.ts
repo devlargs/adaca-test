@@ -16,3 +16,11 @@ export type Album = {
   };
   album_release_date: string;
 };
+
+export type Track = {
+  track_name: string;
+  track_rating: number;
+  track_id: number;
+  has_lyrics: boolean;
+  explicit: boolean;
+};

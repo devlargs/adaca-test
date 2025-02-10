@@ -37,7 +37,6 @@ export default function TopChartingArtists() {
           <Flex
             direction={{ base: "column", md: "row" }}
             gap={{ base: "sm", md: "lg" }}
-            justify={{ sm: "center" }}
           >
             {artistsData.map((artist, index) => (
               <ArtistCard

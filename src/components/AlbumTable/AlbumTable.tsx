@@ -1,10 +1,13 @@
 import { SPOTIFY_ALBUM_URL } from "@/constants/singer";
 import { Album } from "@/types";
 import { Table, Tooltip } from "@mantine/core";
+import { useRouter } from "next/router";
 import { FC } from "react";
 import { FaSpotify } from "react-icons/fa";
 
 export const AlbumTable: FC<{ data: Album[] }> = ({ data }) => {
+  const router = useRouter();
+
   const viewOnSpotify = (link: string, event: React.MouseEvent) => {
     event.stopPropagation();
     window.open(`${SPOTIFY_ALBUM_URL}/${link}`, "_blank");
@@ -13,7 +16,11 @@ export const AlbumTable: FC<{ data: Album[] }> = ({ data }) => {
   const rows = data.map((album) => (
     <Table.Tr
       key={album.album_id}
-      onClick={() => console.log(album.album_id)}
+      onClick={() => {
+        router.push(
+          `/top-charting-artists/${router.query.id}/albums/${album.album_id}`
+        );
+      }}
       style={{ cursor: "pointer" }}
     >
       <Table.Td>{album.album_name}</Table.Td>
