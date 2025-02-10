@@ -24,3 +24,9 @@ export type Track = {
   has_lyrics: boolean;
   explicit: boolean;
 };
+
+export type UserData = {
+  username: string;
+  password: string;
+  country: string;
+};

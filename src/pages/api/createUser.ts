@@ -1,3 +1,4 @@
+import { DEFAULT_SALT } from "@/constants/salt";
 import { bodyParser } from "@/helpers/bodyParser";
 import { connectToDatabase } from "@/helpers/connectToDatabase";
 import cors from "@/helpers/cors";
@@ -23,10 +24,7 @@ export default async function handler(
       if (!country)
         return res.status(400).json({ error: "Country is required" });
 
-      const hashedPassword = await bcrypt.hash(
-        password,
-        process.env.NEXT_PUBLIC_BCRYPT_SALT + ""
-      );
+      const hashedPassword = await bcrypt.hash(password, DEFAULT_SALT);
 
       const newUser = new User({
         username,
@@ -34,9 +32,14 @@ export default async function handler(
         country,
       });
       await newUser.save();
-      return res
-        .status(201)
-        .json({ error: null, message: "User Successfully Created" });
+      return res.status(201).json({
+        error: null,
+        message: "User Successfully Created",
+        data: {
+          username,
+          country,
+        },
+      });
     } catch (error) {
       return res.status(500).json({ error: error });
     }
