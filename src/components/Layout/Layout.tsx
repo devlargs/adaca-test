@@ -1,4 +1,5 @@
 import { Navbar } from "@/components/Navbar";
+import { getUsername } from "@/utils/getUserName";
 import {
   ActionIcon,
   AppShell,
@@ -42,20 +43,23 @@ export const Layout: FC<{ children: ReactElement }> = ({ children }) => {
             />
             <Text>MusixMatch</Text>
           </Flex>
-          <ActionIcon
-            variant="subtle"
-            color="blue"
-            aria-label="Settings"
-            onClick={() =>
-              setColorScheme(colorScheme === "light" ? "dark" : "light")
-            }
-          >
-            {typeof window !== "undefined" && colorScheme === "light" ? (
-              <LuMoon />
-            ) : (
-              <LuSun />
-            )}
-          </ActionIcon>
+          <Flex>
+            <Text>Hello, {getUsername()}!</Text>
+            <ActionIcon
+              variant="subtle"
+              color="blue"
+              aria-label="Settings"
+              onClick={() =>
+                setColorScheme(colorScheme === "light" ? "dark" : "light")
+              }
+            >
+              {typeof window !== "undefined" && colorScheme === "light" ? (
+                <LuMoon />
+              ) : (
+                <LuSun />
+              )}
+            </ActionIcon>
+          </Flex>
         </Flex>
       </AppShell.Header>
 
