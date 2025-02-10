@@ -24,7 +24,7 @@ export const SignupForm = () => {
     },
   });
 
-  const mutation = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: registerUser,
     onSuccess: (data) => {
       notifications.show({
@@ -54,9 +54,7 @@ export const SignupForm = () => {
     },
   });
 
-  const onSubmit = (values: UserData) => {
-    mutation.mutate(values);
-  };
+  const onSubmit = (values: UserData) => mutate(values);
 
   return (
     <form onSubmit={form.onSubmit((values) => onSubmit(values))}>
@@ -90,7 +88,7 @@ export const SignupForm = () => {
           {...form.getInputProps("country")}
         />
 
-        <Button variant="filled" type="submit">
+        <Button variant="filled" type="submit" loading={isPending}>
           Register
         </Button>
       </Flex>
