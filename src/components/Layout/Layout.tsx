@@ -1,4 +1,4 @@
-import { LuMoon, LuSun } from "react-icons/lu";
+import { Navbar } from "@/components/Navbar";
 import {
   ActionIcon,
   AppShell,
@@ -8,8 +8,8 @@ import {
   useMantineColorScheme,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { Navbar } from "@/components/Navbar";
 import { FC, ReactElement } from "react";
+import { LuMoon, LuSun } from "react-icons/lu";
 
 export const Layout: FC<{ children: ReactElement }> = ({ children }) => {
   const [opened, { toggle }] = useDisclosure();
@@ -28,7 +28,8 @@ export const Layout: FC<{ children: ReactElement }> = ({ children }) => {
       <AppShell.Header>
         <Flex
           align="center"
-          style={{ height: 60, padding: 16 }}
+          style={{ height: 60 }}
+          p="md"
           gap={16}
           justify="space-between"
         >
