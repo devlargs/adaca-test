@@ -11,8 +11,6 @@ const theme = createTheme({});
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
-  console.log(router);
-
   return (
     <QueryClientProvider client={queryClient}>
       <MantineProvider theme={theme}>
