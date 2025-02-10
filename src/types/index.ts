@@ -3,3 +3,16 @@ export type Artist = {
   artist_rating: number;
   artist_id: number;
 };
+
+export type Album = {
+  album_copyright: string;
+  album_id: number;
+  album_label: string;
+  album_name: string;
+  album_rating: number;
+  artist_name: string;
+  external_ids: {
+    spotify: string[];
+  };
+  album_release_date: string;
+};
