@@ -5,6 +5,7 @@ type UseUserProps = {
   setUser: (user: null | { username: string; country: string }) => void;
   country: string;
   setCountry: (country: string) => void;
+  resetUser: () => void;
 };
 
 export const useUser = create<UseUserProps>((set) => ({
@@ -12,4 +13,5 @@ export const useUser = create<UseUserProps>((set) => ({
   setUser: (user) => set({ user }),
   country: "",
   setCountry: (country) => set({ country }),
+  resetUser: () => set({ user: null, country: "" }),
 }));

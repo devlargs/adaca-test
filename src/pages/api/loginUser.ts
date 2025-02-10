@@ -1,4 +1,3 @@
-import { DEFAULT_SALT } from "@/constants/salt";
 import { bodyParser } from "@/helpers/bodyParser";
 import { connectToDatabase } from "@/helpers/connectToDatabase";
 import cors from "@/helpers/cors";
@@ -8,7 +7,7 @@ import { serialize } from "cookie";
 import jwt from "jsonwebtoken";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-// TODO - This should be an environment variable
+// TODO - Move this to an environment variable
 const SECRET_KEY = "secretkey";
 
 export default async function handler(
@@ -21,25 +20,31 @@ export default async function handler(
 
   if (req.method === "POST") {
     try {
-      const { username, password, country } = req.body;
-      if (!username)
-        return res.status(400).json({ error: "Username is required" });
-      if (!password)
-        return res.status(400).json({ error: "Password is required" });
-      if (!country)
-        return res.status(400).json({ error: "Country is required" });
+      const { username, password } = req.body;
 
-      const hashedPassword = await bcrypt.hash(password, DEFAULT_SALT);
+      if (!username || !password) {
+        return res
+          .status(400)
+          .json({ error: "Username and password are required" });
+      }
 
-      const newUser = new User({
-        username,
-        password: hashedPassword,
-        country,
-      });
-      await newUser.save();
-      const token = jwt.sign({ username, country }, SECRET_KEY, {
-        expiresIn: "24h",
-      });
+      const user = await User.findOne({ username });
+      if (!user) {
+        return res.status(401).json({ error: "Invalid username or password" });
+      }
+
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res.status(401).json({ error: "Invalid password" });
+      }
+
+      const token = jwt.sign(
+        { username: user.username, country: user.country },
+        SECRET_KEY,
+        {
+          expiresIn: "24h",
+        }
+      );
 
       res.setHeader(
         "Set-Cookie",
@@ -51,16 +56,15 @@ export default async function handler(
         })
       );
 
-      return res.status(201).json({
-        error: null,
-        message: "User Successfully Created",
+      return res.status(200).json({
+        message: "Login successful",
         data: {
-          username,
-          country,
+          username: user.username,
+          country: user.country,
         },
       });
     } catch (error) {
-      return res.status(500).json({ error: error });
+      return res.status(500).json({ error: `${error}` });
     }
   } else {
     return res.status(405).json({ error: "Method Not Allowed" });

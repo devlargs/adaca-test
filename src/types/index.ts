@@ -30,3 +30,5 @@ export type UserData = {
   password: string;
   country: string;
 };
+
+export type LoginUserData = Omit<UserData, "country">;
