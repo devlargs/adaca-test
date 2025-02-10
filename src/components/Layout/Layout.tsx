@@ -43,7 +43,7 @@ export const Layout: FC<{ children: ReactElement }> = ({ children }) => {
             />
             <Text>MusixMatch</Text>
           </Flex>
-          <Flex>
+          <Flex align="center" gap="lg">
             <Text>Hello, {getUsername()}!</Text>
             <ActionIcon
               variant="subtle"
